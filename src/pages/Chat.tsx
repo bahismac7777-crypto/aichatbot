@@ -184,14 +184,30 @@ export default function Chat() {
     setIsTyping(true);
 
     try {
-      const response = await chatSession.sendMessage({ message: userMsg.text });
+      const streamResponse = await chatSession.sendMessageStream({ message: userMsg.text });
+      
+      const botMsgId = (Date.now() + 1).toString();
       const botMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        text: response.text || "I'm sorry, I couldn't process that request.",
+        id: botMsgId,
+        text: "",
         sender: "bot",
         timestamp: new Date(),
       };
+      
       setMessages((prev) => [...prev, botMsg]);
+      setIsTyping(false); // Stop showing the typing indicator once streaming starts
+
+      let fullText = "";
+      for await (const chunk of streamResponse) {
+        const chunkText = chunk.text || "";
+        fullText += chunkText;
+        
+        setMessages((prev) => 
+          prev.map((m) => 
+            m.id === botMsgId ? { ...m, text: fullText } : m
+          )
+        );
+      }
     } catch (error) {
       console.error("Gemini Error:", error);
       const errorMsg: Message = {
