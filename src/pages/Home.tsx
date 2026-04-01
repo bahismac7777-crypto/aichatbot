@@ -1,7 +1,8 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { GraduationCap, Calendar, Bell, BookOpen, MessageCircle, ArrowRight, Sparkles } from "lucide-react";
+import { GraduationCap, Calendar, Bell, BookOpen, MessageCircle, ArrowRight, Sparkles, FileText } from "lucide-react";
 import { BentoGrid, type BentoItem } from "../components/ui/bento-grid";
+import { generateProjectReport } from "../lib/pdfGenerator";
 
 export default function Home() {
   const featureItems: BentoItem[] = [
@@ -104,7 +105,7 @@ export default function Home() {
                 Univo is an AI chatbot designed to help students quickly get important college information. 
                 It provides instant answers about admissions, class schedules, events, and campus services.
               </p>
-              <div className="flex mb-10">
+              <div className="flex flex-wrap gap-4 mb-10">
                 <Link 
                   to="/features"
                   className="px-6 py-3 rounded-md text-sm font-bold border border-white/10 hover:bg-white/5 transition-all flex items-center gap-2 group"
@@ -112,6 +113,13 @@ export default function Home() {
                   Learn More about Features
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
+                <button 
+                  onClick={generateProjectReport}
+                  className="px-6 py-3 rounded-md text-sm font-bold bg-white/5 border border-white/10 hover:bg-white/10 transition-all flex items-center gap-2 group text-brand"
+                >
+                  <FileText className="w-4 h-4" />
+                  Download Project Report
+                </button>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div className="p-4 rounded-md bg-white/5 border border-white/5">

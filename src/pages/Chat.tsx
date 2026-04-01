@@ -131,7 +131,21 @@ export default function Chat() {
 
   useEffect(() => {
     // Initialize Gemini Chat
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const apiKey = process.env.GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      console.error("Gemini API Key is missing. Please set GEMINI_API_KEY in your environment variables.");
+      const errorMsg: Message = {
+        id: "error-config",
+        text: "I'm sorry, the chatbot is not configured correctly (missing API key). Please check the environment variables.",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages([errorMsg]);
+      return;
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
     const chat = ai.chats.create({
       model: "gemini-3-flash-preview",
       config: {

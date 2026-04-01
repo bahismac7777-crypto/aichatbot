@@ -1,4 +1,6 @@
 import Logo from "./Logo";
+import { FileText } from "lucide-react";
+import { generateProjectReport } from "../lib/pdfGenerator";
 
 export default function Footer() {
   return (
@@ -11,6 +13,15 @@ export default function Footer() {
         <p className="text-white/40 text-sm mb-6">
           Helping students with smart information.
         </p>
+        <div className="flex justify-center mb-6">
+          <button 
+            onClick={generateProjectReport}
+            className="text-brand text-xs font-bold uppercase tracking-widest hover:underline flex items-center gap-2"
+          >
+            <FileText className="w-3 h-3" />
+            Download Project Report (PDF)
+          </button>
+        </div>
         <div className="text-white/20 text-xs">
           © 2026 Univo AI Chatbot. All rights reserved.
         </div>
